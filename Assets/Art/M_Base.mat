@@ -32,10 +32,11 @@ Material:
     m_Floats:
     - _Depth: 0
     - _Fresnel: 2
-    - _WaterNoiseScale: 1
+    - _WaterNoiseScale: 15
     - _b: 1
     - _t: 4.81
-    m_Colors: []
+    m_Colors:
+    - _Color: {r: 0, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4515660059591988279
