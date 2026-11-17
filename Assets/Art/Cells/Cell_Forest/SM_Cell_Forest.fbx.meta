@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 7e4abdfb96b7fc94db6279e831070c2f
+guid: f0c5594afbb4d5c4b8a5778c62bbcf49
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Brown
+    second: {fileID: 2100000, guid: b57aaf1137cf825498d4caef8dc9c399, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Cell
+    second: {fileID: 2100000, guid: 0ae9aded923857149a8f81a7e8a8359a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Green
+    second: {fileID: 2100000, guid: b528dfe2f26c7b54ea5bd64afba25533, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Grey
+    second: {fileID: 2100000, guid: be46e406496bfa248910e5e6c0adcce1, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
