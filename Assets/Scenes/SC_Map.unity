@@ -800,7 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aebb869ed245664dba2b8966f9b881b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SC_DayNight
-  TimeOfDay: 5
+  TimeOfDay: 8
   _timeSpeed: 10
   _clockText: {fileID: 11415049}
   _sunriseHour: 5.66

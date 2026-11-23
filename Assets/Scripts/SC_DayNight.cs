@@ -85,6 +85,12 @@ public class SC_DayNight : MonoBehaviour
     // The material is an asset, so its original colour is restored when the game stops.
     private void OnDestroy()
     {
+        if (_skybox != null)
+        {
+            _skybox.SetColor(Color1Id, _skyboxDayColor1);
+            _skybox.SetColor(Color2Id, _skyboxDayColor2);
+        }
+
         if (_waterMaterial != null)
             _waterMaterial.SetColor(SpumeColorId, _originalSpumeColor);
     }
