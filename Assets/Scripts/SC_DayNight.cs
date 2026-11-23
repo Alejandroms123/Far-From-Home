@@ -4,11 +4,9 @@ using UnityEngine;
 public class SC_DayNight : MonoBehaviour
 {
     [Header("Clock (hours, 0-24)")]
-    [Range(0f, 24f)]
-    public float TimeOfDay = 12f;
+    [Range(0f, 24f)] public float TimeOfDay = 12f;
 
     [Header("Time Speed (in-game minutes per real second)")]
-    [Min(0f)]
     [SerializeField] private float _timeSpeed = 12f;
 
     [Space(20)]
@@ -17,10 +15,8 @@ public class SC_DayNight : MonoBehaviour
 
     [Space(20)]
     [Header("Sun Hours")]
-    [Range(0f, 24f)]
-    [SerializeField] private float _sunriseHour = 6f;
-    [Range(0f, 24f)]
-    [SerializeField] private float _sunsetHour = 18f;
+    [SerializeField, Range(0f, 24f)] private float _sunriseHour = 6f;
+    [SerializeField, Range(0f, 24f)] private float _sunsetHour = 18f;
 
     [Space(20)]
     [Header("Skybox")]
@@ -48,24 +44,18 @@ public class SC_DayNight : MonoBehaviour
 
     [Space(20)]
     [Header("Day/Night Change (hours)")]
-    [Range(0f, 24f)]
-    [SerializeField] private float _lowerIntensityHour = 18f;
-    [Range(0f, 24f)]
-    [SerializeField] private float _raiseIntensityHour = 6f;
+    [SerializeField, Range(0f, 24f)] private float _lowerIntensityHour = 18f;
+    [SerializeField, Range(0f, 24f)] private float _raiseIntensityHour = 6f;
 
     [Space(20)]
     [Header("Sunrise Colour Transition (hours)")]
-    [Min(0f)]
-    [SerializeField] private float _nightToSunriseLength = 1f;
-    [Min(0f)]
-    [SerializeField] private float _sunriseToDayLength = 1f;
+    [SerializeField, Min(0f)] private float _nightToSunriseLength = 1f;
+    [SerializeField, Min(0f)] private float _sunriseToDayLength = 1f;
 
     [Space(10)]
     [Header("Sunset Colour Transition (hours)")]
-    [Min(0f)]
-    [SerializeField] private float _dayToSunsetLength = 1f;
-    [Min(0f)]
-    [SerializeField] private float _sunsetToNightLength = 1f;
+    [SerializeField, Min(0f)] private float _dayToSunsetLength = 1f;
+    [SerializeField, Min(0f)] private float _sunsetToNightLength = 1f;
 
     public int Hours => TotalMinutes / 60;
     public int Minutes => TotalMinutes % 60;
@@ -95,12 +85,6 @@ public class SC_DayNight : MonoBehaviour
     // The material is an asset, so its original colour is restored when the game stops.
     private void OnDestroy()
     {
-        if (_skybox != null)
-        {
-            _skybox.SetColor(Color1Id, _skyboxDayColor1);
-            _skybox.SetColor(Color2Id, _skyboxDayColor2);
-        }
-
         if (_waterMaterial != null)
             _waterMaterial.SetColor(SpumeColorId, _originalSpumeColor);
     }
@@ -197,17 +181,18 @@ public class SC_DayNight : MonoBehaviour
         return Color.Lerp(peak, to, Mathf.InverseLerp(0f, after, offset));
     }
 
-    // 0 = full night, 1 = full day. It changes gradually during the sunrise and sunset transitions.
-    private float GetDayFactor()
+    // 1 = day, 0 = night. It only changes during the night side of the transitions:
+    // fades out after _lowerIntensityHour (sunset -> night) and fades in before _raiseIntensityHour (night -> sunrise).
+    private float GetWaterFactor()
     {
         float sunriseOffset = GetHourOffset(_raiseIntensityHour);
         float sunsetOffset = GetHourOffset(_lowerIntensityHour);
 
-        if (sunriseOffset > -_nightToSunriseLength && sunriseOffset < _sunriseToDayLength)
-            return Mathf.InverseLerp(-_nightToSunriseLength, _sunriseToDayLength, sunriseOffset);
+        if (sunriseOffset > -_nightToSunriseLength && sunriseOffset < 0f)
+            return Mathf.InverseLerp(-_nightToSunriseLength, 0f, sunriseOffset);
 
-        if (sunsetOffset > -_dayToSunsetLength && sunsetOffset < _sunsetToNightLength)
-            return Mathf.InverseLerp(_sunsetToNightLength, -_dayToSunsetLength, sunsetOffset);
+        if (sunsetOffset >= 0f && sunsetOffset < _sunsetToNightLength)
+            return Mathf.InverseLerp(_sunsetToNightLength, 0f, sunsetOffset);
 
         return IsDay() ? 1f : 0f;
     }
@@ -217,7 +202,7 @@ public class SC_DayNight : MonoBehaviour
         if (_waterMaterial == null)
             return;
 
-        Color color = _originalSpumeColor * GetDayFactor();
+        Color color = _originalSpumeColor * GetWaterFactor();
         color.a = _originalSpumeColor.a;
 
         _waterMaterial.SetColor(SpumeColorId, color);
