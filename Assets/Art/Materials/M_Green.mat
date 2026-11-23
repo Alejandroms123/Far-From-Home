@@ -103,7 +103,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _GradientContrast: 2.5
-    - _GradientFade: 0.65
+    - _GradientFade: 0.64
     - _MAIN_LIGHT_SHADOWS: 0
     - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _MAIN_LIGHT_SHADOWS_SCREEN: 0
